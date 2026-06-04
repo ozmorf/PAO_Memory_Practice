@@ -44,6 +44,18 @@ def practice_range():
     for number in user_num_list: 
         rprint(f"Enter the correct PAO phrase for {number}: ")
         user_answer = collect_user_input(number)
+
+        if user_answer[0] == "hint":
+            choose_1_or_2 = random.randint(1,2)
+            hint = user_list_answer[number][choose_1_or_2]
+            rprint(f"[bright_cyan]Hint, huh? Well well, looks like [italic]somebody[/italic] needs to study more.\nHere's the hint for little precious: [yellow]'{hint}'[/yellow][/bright_cyan]")
+            new_input = collect_user_input(number)
+            user_answer = new_input
+            
+        elif user_answer[0] in ["stop", "end", "exit"]:
+            rprint(f"[orange]Fine. I'll stop. I thought we...*sniff*...we were on good terms :'([/orange]")
+            return
+
         result = check_answer(user_answer, user_list_answer[number])
 
         #check if user_answer is correct
@@ -53,7 +65,8 @@ def practice_range():
         else:
             rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
 
-        #to add: allow user to type 'hint' for O or A hint. 
+        #to add: allow user to type 'hint' for O or A hint.
+        #to add: allow user to type 'quit' or 'stop' to end the run 
         
 
     
