@@ -38,16 +38,18 @@ def pair_digits(num):
     # return [int(num_string[i:i+2]) for i in range (0, len(num), 2)]
 
 def gen_ran_num_list(number):
-    number_list = []
-    ran_digit_length = random.randint(0,16)
-    #loop over list, gen num sequence and phrase
-    for i in range(ran_digit_length):
-        ran_digit = random.randint(0,9) #add a catch if this number isn't in the proper range, or to check how many items are in the data source
-        number_list.append(ran_digit)
+
+    if number == None:
+        number = random.randint(0,16)
+    else:
+        number_list = []
+        #loop over list, gen num sequence and phrase
+        for i in range(number):
+            ran_digit = random.randint(0,9) #add a catch if this number isn't in the proper range, or to check how many items are in the data source
+            number_list.append(ran_digit)
     
     number = int(''.join(map(str, number_list)))
 
-    
     return number
    
 def gen_main_phrase(num_list):
@@ -76,6 +78,7 @@ def gen_lonely_word(num):
 
 # gen_phrase is calling between gen_main_phrase() and itself someewhat redundantly...
 def gen_phrase(num_list):
+    #add a "catch" if the input is a list instead of int
     phrase = []
 
     if is_odd_length(num_list):
@@ -86,13 +89,30 @@ def gen_phrase(num_list):
     else:
         phrase.extend(gen_main_phrase(num_list))
         return phrase
-    
-def collect_user_input():
-    None
 
-def check_answer():
-    None
-    
+def collect_user_input(number):
+
+    user_input = input(f"Enter the correct phrase, seperating words by commas: ")
+    #user_answer = user_input.split(",")
+    user_answer = [item.strip() for item in user_input.split(",")]
+
+    return user_answer
+
+    #seperate user answer by commas, and store each item in a list
+
+
+def check_answer(user_input, answer):
+
+    user_input_lowercase = []
+    answer_lowercase = [] #To do: the database should already be lowercase. Homework: do it...without Chat GPT's help. 
+
+    for item in user_input:
+        user_input_lowercase.append(item.lower())
+    for item in answer:
+       answer_lowercase.append(item.lower()) 
+      
+    return user_input_lowercase == answer_lowercase
+
 def unpack(dict):
     values = list(dict.values())
     print(values)
@@ -108,9 +128,13 @@ def unpack_phrase(dict):
     O = just_values[2]
     rprint(f"[yellow]Phrase: {phrase} \na: {a} \nP: {P} \nA: {A} \nO: {O} [/yellow]")    
 
+""" 
+
 ran_num = gen_ran_length()
 num_list = gen_ran_num_list(ran_num)
 # num_list = 12345
 
 rprint(f"[yellow]Program Starting...[/yellow]")
 rprint(f"[blue]Number List:[/blue] {num_list}, [blue]Length:[/blue] {len(str((num_list)))}\n[blue]Phrase:[/blue] {gen_phrase(num_list)}")
+
+"""

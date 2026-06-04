@@ -4,13 +4,16 @@ from rich import print as rprint
 
 def answer_three():
 
+    win = "Ummm, that was correct. Good job, buck-o."
+    lose = "Ha! I [italic]knew[/italic] you needed to study more. That is incorrect. \nThe correct phrase is {correct_phrase}"
     three_numbers = gen_ran_num_list(6)
 
-    # print(pair_digits(three_numbers))
-    # print(gen_phrase(three_numbers))
+    print(pair_digits(three_numbers))
+    print(gen_phrase(three_numbers))
     
     correct_phrase = gen_phrase(three_numbers)
     user_input = collect_user_input(len(str(three_numbers)))
+
 
     if check_answer(user_input, correct_phrase):
         rprint(f"[green]Ummm, that was correct. Good job, buck-o.[/green]")
@@ -19,8 +22,9 @@ def answer_three():
 
 def practice_range():
 
-    #gen ran nums within based on user's input
+    #gen ran nums within range based on user's input
     user_num_list = []
+    user_list_answer = {}
 
     num = int(input(f"Enter a number range you would like to pracice: "))
     
@@ -28,9 +32,30 @@ def practice_range():
         user_num_list.append(i)
     random.shuffle(user_num_list)
 
+    #generate the answer key
     for number in user_num_list:
+        PAO_phrase = []
+        str_number = str(number)
+        triplicated_number = str_number+str_number+str_number 
+        user_list_answer[number] = gen_phrase(triplicated_number)
+
+
+    #loop through each item of the user_num_list, get PAO answer for each item
+    for number in user_num_list: 
         rprint(f"Enter the correct PAO phrase for {number}: ")
-        collect_user_input(number)
+        user_answer = collect_user_input(number)
+        result = check_answer(user_answer, user_list_answer[number])
+
+        #check if user_answer is correct
+
+        if result:
+            rprint(f"[green]Correct![/green]")
+        else:
+            rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
+
+        #to add: allow user to type 'hint' for O or A hint. 
+        
+
     
     #prompt user for PAO for each num, check answer
     #User can ask for hint...
@@ -39,8 +64,7 @@ def practice_range():
     #prompt 'would you like to do this number set again? [Y/N]:' at the end
     #report num of hints given
 
-
-answer_three()
+practice_range()
 
 #Game modes to add:
 #Practice a specific range, like 50s, or 10s. User must give correct PAO phrase. User can ask for a hint (output O or A)
