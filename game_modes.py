@@ -61,7 +61,7 @@ def practice_range():
         #check if user_answer is correct
 
         if result:
-            rprint(f"[green]Correct![/green]")
+            rprint(f"[green]Correct![/green]") # add in "_#_ Remaining" after each message
         else:
             rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
 
