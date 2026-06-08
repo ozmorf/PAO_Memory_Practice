@@ -1,5 +1,6 @@
 from database import PAO_dict_list
 from database import singles
+from ascii import *
 import random
 from rich import print as rprint
 from rich import pretty 
@@ -92,13 +93,17 @@ def gen_phrase(num_list):
 
 def collect_user_input(number):
 
-    user_input = input(f"Enter the correct phrase, seperating words by commas: ")
+    user_input = input(f"Your response (comma seperated): ")
     #user_answer = user_input.split(",")
     user_answer = [item.strip() for item in user_input.split(",")]
 
     return user_answer
 
     #seperate user answer by commas, and store each item in a list
+
+def check_valid_input(user_input, valid_choices):
+    if user_input in valid_choices:
+        return True
 
 
 def check_answer(user_input, answer):
@@ -113,28 +118,13 @@ def check_answer(user_input, answer):
       
     return user_input_lowercase == answer_lowercase
 
-def unpack(dict):
-    values = list(dict.values())
-    print(values)
-    for item in values:
-        rprint("[green]values[/green]") 
+def display_welcome_sequence():
+    rprint(f"[cyan]{major_PAO}[/cyan]")
+    rprint(f"[bold]Welcome to Major PAO Practice! Choose an item from the menu by typing it below: [/bold] ")
+    rprint(f"[cyan]{menu_word}")
 
-def unpack_phrase(dict):
-    a = list(phrase.values())
-    print(f"Here's a {a}")
-    just_values = a[0]
-    P = just_values[0]
-    A = just_values[1]
-    O = just_values[2]
-    rprint(f"[yellow]Phrase: {phrase} \na: {a} \nP: {P} \nA: {A} \nO: {O} [/yellow]")    
-
-""" 
-
-ran_num = gen_ran_length()
-num_list = gen_ran_num_list(ran_num)
-# num_list = 12345
-
-rprint(f"[yellow]Program Starting...[/yellow]")
-rprint(f"[blue]Number List:[/blue] {num_list}, [blue]Length:[/blue] {len(str((num_list)))}\n[blue]Phrase:[/blue] {gen_phrase(num_list)}")
-
-"""
+def display_menu(menu):
+    
+    for item in menu:
+        rprint(f"[cyan]-{item}[/cyan]")
+    print("\n")
