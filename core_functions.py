@@ -128,3 +128,8 @@ def display_menu(menu):
     for item in menu:
         rprint(f"[cyan]-{item}[/cyan]")
     print("\n")
+
+def reset_round():
+    None
+
+#check if words are slightly misspelled

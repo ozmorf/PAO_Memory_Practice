@@ -1,6 +1,77 @@
 from core_functions import *
 import random
 from rich import print as rprint
+from ascii import *
+from main_game_loop import *
+from rich.console import Console
+
+# console = Console()
+# console.clear()
+
+class GameMode:
+    def __init__(self, ascii_title, instructions, menu):
+        self.ascii_title = ascii_title
+        self.instructions = instructions
+        self.menu = menu
+
+    def display_ascii_title(self):
+        rprint(f"[cyan]{self.ascii_title}[/cyan]")
+    
+    def display_instructions(self):
+        rprint(f"[bold white]{self.instructions}[/bold white]")
+
+    def display_menu(self):
+        for item in self.menu:
+            rprint(f"[cyan]- {item}[/cyan]")
+
+    def gameplay(self):
+        pass
+
+    def reset_round(self):
+        pass
+    
+    def run(self):
+        self.display_ascii_title()
+        self.display_instructions()
+        self.display_menu()
+
+mode_menu = GameMode(
+    ascii_title = menu_word,
+    instructions = "Type your response and hit enter: ",
+    menu = ["choose 3", "pick range", "menu", "quit"]
+)
+
+class Menu(GameMode):
+    def __init__(self):
+        super().__init__(
+            ascii_title = "", 
+            instructions = display_welcome_sequence(), 
+            menu = ["choose 3", "pick range", "menu", "quit"]
+            )
+        def gameplay(self):
+            menu()
+
+class PracticeRange(GameMode):
+    def __init__(self):
+        super().__init__(
+            ascii_title = ascii_pick_range,
+            instructions = "Play to win!!",
+            menu = ['item1', 'item2']
+            )
+    
+    def gameplay(self):
+        print("PracticeRange Running")
+
+menu_mode = Menu()
+menu_mode.run()
+pick_range_mode = PracticeRange()
+
+
+
+
+
+# sample_mode.run()
+# mode_menu.run()
 
 def answer_three():
 
@@ -14,21 +85,28 @@ def answer_three():
     correct_phrase = gen_phrase(three_numbers)
     user_input = collect_user_input(len(str(three_numbers)))
 
-
     if check_answer(user_input, correct_phrase):
         rprint(f"[green]Ummm, that was correct. Good job, buck-o.[/green]")
     else:
         rprint(f"[yellow]Ha! I [italic]knew[/italic] you needed to study more. That is incorrect. \nThe correct phrase is {correct_phrase}[/yellow]")
 
-def practice_range():
+    reset = input(f"Do you want to quit? [Y/N]: ")
+
+    if reset.lower() == "y":
+        console = Console()
+        console.clear() 
+    else:
+        print("well, I'm not equipped at the moment to do that. By anyway.")
+        
+def pick_range():
 
     #gen ran nums within range based on user's input
     user_num_list = []
     user_list_answer = {}
 
     num = int(input(f"Enter a number range you would like to pracice: "))
-    
-    for i in range(num, num+9):
+
+    for i in builtins.range(num, num+9):
         user_num_list.append(i)
     random.shuffle(user_num_list)
 
@@ -52,7 +130,7 @@ def practice_range():
             new_input = collect_user_input(number)
             user_answer = new_input
             
-        elif user_answer[0] in ["stop", "end", "exit"]:
+        elif user_answer[0] in ["stop", "end", "exit", "quit"]:
             rprint(f"[orange]Fine. I'll stop. I thought we...*sniff*...we were on good terms :'([/orange]")
             return
 
@@ -67,61 +145,6 @@ def practice_range():
 
         #to add: allow user to type 'hint' for O or A hint.
         #to add: allow user to type 'quit' or 'stop' to end the run 
-        
-
-    
-    #prompt user for PAO for each num, check answer
-    #User can ask for hint...
-    #Loop through all the number
-    #user can type 'stop' at any time to exit the practice
-    #prompt 'would you like to do this number set again? [Y/N]:' at the end
-    #report num of hints given
-
-practice_range()
-
-#Game modes to add:
-#Practice a specific range, like 50s, or 10s. User must give correct PAO phrase. User can ask for a hint (output O or A)
-#From phrase, give number
-#answer 6, or 7, or ... use a timer 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#menu:
-#various modes
-#each mode you can return to the menu, and choose a different mode until you quit
-#make output pretty instead of brackets and quotes...
-#basic mode: generate 3 numbers, and user has to enter in the corresponding correct PAO phrase
-
-"""
-#functions to build: Given [num, A, or O], recall the P ✅
-#Give a range of numbers, and drill from that range
-#Generate random numbers of ___ digits, convert to sentences ✅
-#Read from google sheets --> figure out google sheets API
-#Generate PAO phrases, and give back the number sequence
-#Make a spaced repition algorithm 
-#Does Anki have an API? What can it do?
-"""

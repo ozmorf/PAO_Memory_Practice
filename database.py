@@ -45,18 +45,18 @@ PAO_dict_list = {
     42: ("Rhino", "Ramming", "Truck"),
     43: ("Ram", "Climbing", "Cliff"),
     44: ("Harrier", "Ascending", "Carrier"),
-    45: ("Oriale", "Chirping", "Meadow"),
-    46: ("Roach", "Scurring", "Toilet"),
+    45: ("Oriole", "Chirping", "Meadow"),
+    46: ("Roach", "Scurrying", "Toilet"),
     47: ("Orca", "Hunting", "Seal"),
-    48: ("Rover", "Landing", "Moon"),
+    48: ("Rover", "Landing", "Mars"),
     49: ("Ruby", "Glistening", "Treasure Chest"),
-    50: ("Alice", "Wearing", "Blue Dress"),
-    51: ("Lute", "Plucking, Strumming", "Song"),
+    50: ("Lizard", "Sticking", "Wall"),
+    51: ("Lute", "Strumming", "Song"),
     52: ("Alien", "Piloting", "Flying Saucer"),
     53: ("Llama", "Spitting", "Tourist"),
     54: ("Larry", "Waltzing", "Tomatoes"),
     55: ("Lilac", "Blooming", "Green Gables"),
-    56: ("Leach", "Sucking", "Blood"),
+    56: ("Leech", "Sucking", "Blood"),
     57: ("Hulk", "Smashing", "Thor"),
     58: ("Elvis", "Shaking", "Hips"),
     59: ("Lips", "Kissing", "Frog"),
@@ -100,6 +100,13 @@ PAO_dict_list = {
     97: ("Pig", "Wallowing", "Mud"),
     98: ("Beaver", "Gnawing", "Tree"),
     99: ("Pope", "Preaching", "Cathedral"),
+}
+
+alternates = {
+    #oriale singing instead of chirping
+    #alien piloting UFO or flying saucer
+    #nile turning/changing to blood
+    None
 }
 
 singles = {

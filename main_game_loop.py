@@ -2,13 +2,14 @@ from ascii import *
 from rich import print as rprint
 from core_functions import *
 from game_modes import *
+import builtins
 
 def menu():
-    menu_choices = ["choose 3", "practice range", "menu", "quit"]
+    menu_choices = ["choose 3", "pick range", "menu", "quit"]
 
     #welcome sequence
-    display_welcome_sequence()
-    display_menu(menu_choices)
+    # display_welcome_sequence()
+    # display_menu(menu_choices)
 
     user_menu_input = input(f"Type your response and hit enter: ")
 
@@ -36,13 +37,15 @@ def menu():
     #Execute user's choice
     if user_menu_input.lower() == "choose 3":
         answer_three()
-    elif user_menu_input.lower() == "practice range":
-        practice_range()
+    elif user_menu_input.lower() == "pick range":
+        pick_range()
     elif user_menu_input.lower() == "menu":
         menu()
     elif user_menu_input.lower() == "quit" or "stop":
         print(f"I'm relieved. I was ready to be done with you too tbh")
         return
+    else:
+        print("somethine weird must've happened...check your code.")
     
 
     #Get user selection, execute function
