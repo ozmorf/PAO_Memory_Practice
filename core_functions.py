@@ -123,13 +123,34 @@ def display_welcome_sequence():
     rprint(f"[bold]Welcome to Major PAO Practice! Choose an item from the menu by typing it below: [/bold] ")
     rprint(f"[cyan]{menu_word}")
 
-def display_menu(menu):
+def display_menu(menu_list):
     
-    for item in menu:
+    for item in menu_list:
         rprint(f"[cyan]-{item}[/cyan]")
-    print("\n")
+    # print("\n")
 
 def reset_round():
     None
 
+def validate_user_input(user_input, menu_choices):
+
+    count = 0
+
+    #get valid user_menu_input or quit
+    while user_input.lower() not in menu_choices:
+        if count < 2:
+            user_input = input("That response is not in my data banks. Please type a valid response: ")
+        elif count >= 3 and count < 9:
+            user_input = input(f"You appear to be really struggling here...if you want to see the menu again, plz just type, 'menu': ")
+        elif count >= 9:
+            user_input = print(f"I'm going to play it safe and assume your ability to follow instructions is beyond hope. I'm out.")
+            return False
+    
+        count += 1
+    
+    if count >= 2:
+        print(f"You appear to be...oh. You figured it out. Good job, i guess?")
+        return True
+    
+    return True
 #check if words are slightly misspelled
