@@ -132,12 +132,13 @@ def display_menu(menu_list):
 def reset_round():
     None
 
-def validate_user_input(user_input, menu_choices):
+def get_valid_user_input(user_input, menu_choices):
 
     count = 0
 
     #get valid user_menu_input or quit
     while user_input.lower() not in menu_choices:
+        print(f"user_input.lower...{user_input.lower()}")
         if count < 2:
             user_input = input("That response is not in my data banks. Please type a valid response: ")
         elif count >= 3 and count < 9:
@@ -150,7 +151,8 @@ def validate_user_input(user_input, menu_choices):
     
     if count >= 2:
         print(f"You appear to be...oh. You figured it out. Good job, i guess?")
-        return True
+        return user_input
     
-    return True
+    return user_input
+
 #check if words are slightly misspelled

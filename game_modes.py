@@ -29,49 +29,82 @@ class GameMode:
         rprint("")
     
     def get_user_input(self):
-        #need input validation
-        return input(">> ").lower()
+
+        user_input = input(">> ")
+        count = 0
+
+        while user_input not in str(self.menu_items):
+                
+            if count < 2:
+                user_input = input("That response is not in my data banks. Please type a valid response: ")
+            elif count >= 3 and count < 9:
+                user_input = input(f"You appear to be really struggling here...if you want to see the menu again, plz just type, 'menu': ")
+            elif count >= 9:
+                user_input = print(f"I'm going to play it safe and assume your ability to follow instructions is beyond hope. I'm out.")
+                return False
+        
+            count += 1
+
+
+        if count >= 2:
+            print(f"You appear to be...oh. You figured it out. Good job, i guess?")
+
+        return user_input             
+
+    def gameplay(self, user_choice):
+        raise NotImplementedError
     
-    def display_additional_options(self, user_input):
+    def display_gameplay_menu(self):
         pass
 
-    def gameplay(self):
-        raise NotImplementedError
 
     def reset_round(self):
         console = Console()
         console.clear() 
+        # if y_n_menu:
+        #     return Menu()
+        # else:
+        #     print("you said no.")
+        #     return
         
     def run(self):
         self.display_ascii_title()
         self.display_instructions()
         self.display_menu()
+
         user_choice = self.get_user_input()
-        self.display_additional_options(user_choice)
+        next_mode = self.gameplay(user_choice)
+
+        if next_mode:
+            print(f"next_mode being triggered: {next_mode}")
+            self.reset_round()
+            next_mode.run()
+        else:
+            print(f"Next mode else block. {next_mode}")
+            pass # self.clear_console()
+
         self.gameplay(user_choice)
         self.reset_round()
 
-class display_Menu(GameMode):
+class Menu(GameMode):
     def __init__(self):
         super().__init__(
             ascii_title = major_PAO, 
             instructions = "Welcome to Major PAO Practice! Choose an item from the menu by typing it below:\n ", 
-            menu_items = ["choose 3", "pick range", "display_menu", "quit"]
+            menu_items = ["choose 3", "pick range", "menu", "quit"],
             )
     def gameplay(self, user_choice):
         #input validation:
-        if validate_user_input(user_choice, self.menu_items):
+        if get_valid_user_input(user_choice, self.menu_items):
             if user_choice == "choose 3":
-                print(f"answer 3: {answer_three}")
-                answer_three()
+                return Choose_3
             elif user_choice == "pick range":
-                PickRange()
+                return PickRange()
             elif user_choice == "menu":
-                pass
-                # menu()
+                return Menu()
             elif user_choice == "quit" or "stop":
-                print(f"I'm relieved. I was ready to be done with you too tbh")
-                return
+                #print(f"I'm relieved. I was ready to be done with you too tbh")
+                return Goodbye()
             else:
                 print("somethine weird must've happened...check your code.")
         else:
@@ -82,14 +115,13 @@ class PickRange(GameMode):
     def __init__(self):
         super().__init__(
             ascii_title = ascii_pick_range,
-            instructions = "Pick a range from the following options:\n ",
+            instructions = "Pick a range from the following options:\n(you can also type 'hint', 'stop', or 'quit' at any time)\n",
             menu_items = [i for i in range(0, 91, 10)]
             )
     
     def gameplay(self, choice):
-        pick_range(choice)
-
-    def display_additional_options(self, user_choice):
+        # print("before pick range")
+        choice = int(choice)
 
         ascii_nums = [
             range_zeroes_small,
@@ -105,23 +137,53 @@ class PickRange(GameMode):
             ]
         menu_items = [i for i in range(0, 91, 10)]
         
-        choice = int(user_choice)
-        
         if choice in menu_items:
             index = menu_items.index(choice)
+
             console = Console()
             console.clear() 
+
             rprint(f"[cyan]{ascii_nums[index]}[/cyan]")
         else:
             print("You didn't do what you were supposed to...")
 
+            # rprint(f"[bold]Hint: you can also type 'hint', or 'stop', or quit.")
         
+        pick_range(choice) #focus here...
+        print("after pick range")
 
-# display_menu_mode = display_Menu()
-# display_menu_mode.run()
+class Choose_3(GameMode):
+    def __init__(self):
+        super().__init__(
+            ascii_title = choose_3, 
+            instructions = "Choose 3 instructions here...", 
+            menu_items = ["item 1", "item 2", "item 3..."]
+            )  
+    def gameplay(self, choice):
+        answer_three()
 
-pick_range_mode = PickRange()
-pick_range_mode.run()
+class Goodbye(GameMode):
+    def __init__(self):
+        super().__init__(
+            ascii_title = goodbye_question, 
+            instructions = "Confirm quit? [y/n]", 
+            menu_items = ["y", "n", "menu"]
+            )
+    def gameplay(self, choice):
+            
+        response = get_valid_user_input(choice, self.menu_items).lower()
+        
+        if response == 'y':
+            return
+        else:
+            return Menu()
+
+display_menu_mode = Menu()
+display_menu_mode.run()
+
+# pick_range_mode = PickRange()
+# pick_range_mode.run()
+
 # pick_range_mode = PickRange()
 
 
