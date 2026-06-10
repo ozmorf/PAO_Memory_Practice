@@ -87,6 +87,6 @@ If you're interested in creating your own version, you'll need to enter in your 
 # How to Run this Script
 
 In the console, run:
-`python main_game_loop.py`
+`python game_modes.py`
 
 That's literally all. I don't know what else to say. 
