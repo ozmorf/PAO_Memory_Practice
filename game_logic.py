@@ -4,58 +4,6 @@ from core_functions import *
 
 from rich.console import Console
 
-
-def menu():
-    menu_choices = ["choose 3", "pick range", "menu", "quit"]
-
-    #welcome sequence
-    # display_welcome_sequence()
-    # display_menu(menu_choices)
-
-    user_menu_input = input(f"Type your response and hit enter: ")
-
-    count = 0
-
-    #get valid user_menu_input or quit
-
-    """ 
-    while user_menu_input.lower() not in menu_choices:
-        if count < 2:
-            user_menu_input = input("That response is not in my data banks. Please type a valid response: ")
-        elif count >= 3 and count < 9:
-            user_menu_input = input(f"You appear to be really struggling here...if you want to see the menu again, plz just type, 'menu': ")
-        elif count >= 9:
-            user_menu_input = print(f"I'm going to play it safe and assume your ability to follow instructions is beyond hope. I'm out.")
-            return
-    
-        count += 1
-    
-    if count >= 2:
-        print(f"You appear to be...oh. You figured it out. Good job, i guess?")
-        count = 0
-    
-
-    count = 0
-    """
-
-    #Execute user's choice
-
-    """ 
-    if user_menu_input.lower() == "choose 3":
-        answer_three()
-    elif user_menu_input.lower() == "pick range":
-        pick_range()
-    elif user_menu_input.lower() == "menu":
-        menu()
-    elif user_menu_input.lower() == "quit" or "stop":
-        print(f"I'm relieved. I was ready to be done with you too tbh")
-        return
-    else:
-        print("somethine weird must've happened...check your code.")
-    """
-
-
-
 def answer_three():
 
     win = "Ummm, that was correct. Good job, buck-o."
@@ -112,6 +60,9 @@ def pick_range(num):
             hint = user_list_answer[number][choose_1_or_2]
             rprint(f"[bright_cyan]Hint, huh? Well well, looks like [italic]somebody[/italic] needs to study more.\nHere's the hint for little precious: [yellow]'{hint}'[/yellow][/bright_cyan]")
             new_input = collect_user_input(number)
+            #new block...
+            if user_answer[0] == "quit":
+                user_answer = new_input
             user_answer = new_input
             
         elif user_answer[0] in ["stop", "end", "exit", "quit"]:
@@ -127,5 +78,6 @@ def pick_range(num):
         else:
             rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
 
+        # return 
         #to add: allow user to type 'hint' for O or A hint.
         #to add: allow user to type 'quit' or 'stop' to end the run 
