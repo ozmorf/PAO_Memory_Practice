@@ -156,8 +156,4 @@ def get_valid_user_input(user_input, menu_choices):
     
     return user_input
 
-# def play_again_or_menu():
-
-#     user_input = input(f"Do you want to play again?")
-
 #check if words are slightly misspelled

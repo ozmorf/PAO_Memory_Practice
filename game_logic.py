@@ -1,7 +1,6 @@
 from ascii import *
 from rich import print as rprint
 from core_functions import *
-
 from rich.console import Console
 
 def answer_three():
@@ -55,19 +54,17 @@ def pick_range(num):
         rprint(f"Enter the correct PAO phrase for {number}: ")
         user_answer = collect_user_input(number)
 
-        if user_answer[0] == "hint":
+        if user_answer[0].lower() == "hint":
             choose_1_or_2 = random.randint(1,2)
             hint = user_list_answer[number][choose_1_or_2]
             rprint(f"[bright_cyan]Hint, huh? Well well, looks like [italic]somebody[/italic] needs to study more.\nHere's the hint for little precious: [yellow]'{hint}'[/yellow][/bright_cyan]")
             new_input = collect_user_input(number)
-            #new block...
-            if user_answer[0] == "quit":
-                user_answer = new_input
-            user_answer = new_input
             
-        elif user_answer[0] in ["stop", "end", "exit", "quit"]:
-            rprint(f"[orange]Fine. I'll stop. I thought we...*sniff*...we were on good terms :'([/orange]")
-            return
+        elif user_answer[0].lower() == "menu":
+            return "menu" 
+        
+        elif user_answer[0].lower() == "quit":
+            return "quit"
 
         result = check_answer(user_answer, user_list_answer[number])
 
