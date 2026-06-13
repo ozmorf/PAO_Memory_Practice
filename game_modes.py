@@ -13,11 +13,10 @@ from rich.console import Console
 class GameMode:
     #data: ascii_title, instructions, menu_items, interactive_loop
     #behaviors: display menu, get user input, gameplay, gameplay_interactive_loop, clear console
-    def __init__(self, ascii_title, instructions, menu_items, interactive_loop = False):
+    def __init__(self, ascii_title, instructions, menu_items):
         self.ascii_title = ascii_title
         self.instructions = instructions
         self.menu_items = menu_items
-        self.interactive_loop = interactive_loop
 
     def display_ascii_title(self):
         rprint(f"[cyan]{self.ascii_title}[/cyan]\n")
@@ -32,7 +31,6 @@ class GameMode:
         rprint("")
     
     def get_user_input(self):
-
         user_input = input(">> ")
         count = 0
 
@@ -57,34 +55,12 @@ class GameMode:
     def gameplay(self, user_choice):
         raise NotImplementedError
 
-    def gameplay_interactive_loop(self, user_input):
-        #this function is for handling the user entering menu items like 'menu' and 'quit' during gameplay. 
-
-        while True:
-            user_input = input(">> ").lower()
-            if user_input == "menu":
-                return Menu()
-            elif user_input == "quit":
-                return PlayAgain(lambda: self.__class__(*self.get_init_args()))
-            
-            result = self.handle_input(user_input)
-            if result:
-                return result
-
     def reset_round(self):
         Console().clear()
      
     def run(self):
         self.display_ascii_title()
         self.display_instructions()
-
-        if self.interactive_loop:
-            next_mode = self.gameplay_interactive_loop()
-        # else:
-        #     if self.menu_items:
-        #         self.display_menu()
-        #     else:
-        #         user_choice = None
             
         self.display_menu()
 
@@ -106,6 +82,7 @@ class Menu(GameMode):
             menu_items = ["tutorial", "choose 3", "pick range", "quit"]
             )
     def gameplay(self, user_choice):
+        Console().clear()
         if get_valid_user_input(user_choice, self.menu_items):
             if user_choice == "choose 3":
                 return Choose_3
@@ -120,7 +97,6 @@ class Menu(GameMode):
                 print("somethine weird must've happened...check your code.")
         else:
             print(f"Somethine must've happened, this is the else block...")
-            # menu()
 
 class Tutorial(GameMode):
     def __init__(self):
@@ -163,9 +139,8 @@ class PickRangeSession(GameMode):
 
         super().__init__(
             ascii_title = ASCII_MAP[choice],
-            instructions = "Type your answer below, comma seperated. \nAt anytime, you can choose the following: \n",
-            menu_items = ["hint", "menu", "quit"],
-            interactive_loop = True
+            instructions = "Type your answer below, comma seperated. \nAt anytime, you can select from the following options: \n",
+            menu_items = ["hint", "menu"],
             )
         
     def run(self):
@@ -173,15 +148,15 @@ class PickRangeSession(GameMode):
         rprint(f"[cyan]{self.ascii_title}[/cyan]")
         super().display_instructions()
         super().display_menu()
-        pick_range(self.choice)
-        return PlayAgain(lambda : PickRangeSession(self.choice))
-    
-    def gameplay(self, user_choice = None):
-        
-        if user_choice == 'menu':
-            return Menu()
-        elif user_choice == 'quit':
-            return PlayAgain(lambda: PickRangeSession(self.choice))
+
+        user_input = pick_range(self.choice)
+
+        if user_input == 'menu':
+                Console().clear()
+                return Menu().run()
+        # elif user_input == 'quit':
+        #     # return PlayAgain(lambda: PickRangeSession(self.choice))
+        #     return PlayAgain(lambda: self.__class__(*self.get_init_args())).run()
 
 class Choose_3(GameMode):
     def __init__(self):

@@ -58,8 +58,8 @@ def pick_range(num):
             choose_1_or_2 = random.randint(1,2)
             hint = user_list_answer[number][choose_1_or_2]
             rprint(f"[bright_cyan]Hint, huh? Well well, looks like [italic]somebody[/italic] needs to study more.\nHere's the hint for little precious: [yellow]'{hint}'[/yellow][/bright_cyan]")
-            new_input = collect_user_input(number)
-            
+            user_answer = collect_user_input(number)
+
         elif user_answer[0].lower() == "menu":
             return "menu" 
         
@@ -75,6 +75,4 @@ def pick_range(num):
         else:
             rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
 
-        # return 
-        #to add: allow user to type 'hint' for O or A hint.
-        #to add: allow user to type 'quit' or 'stop' to end the run 
+    # return "done"
