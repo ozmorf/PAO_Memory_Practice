@@ -1,9 +1,14 @@
 from ascii import *
 from rich import print as rprint
 from core_functions import *
-from rich.console import Console
+# from rich.console import Console
+import random
 
-def answer_three():
+def answer_three(): #takes argument 'difficulty'
+    # easy (6 digits), medium (12-13), hard (14-17), and custom (user chooses up to 20)
+    #
+    # if difficulty == check_valid_input():
+    #     pass
 
     win = "Ummm, that was correct. Good job, buck-o."
     lose = "Ha! I [italic]knew[/italic] you needed to study more. That is incorrect. \nThe correct phrase is {correct_phrase}"
@@ -20,34 +25,24 @@ def answer_three():
     else:
         rprint(f"[yellow]Ha! I [italic]knew[/italic] you needed to study more. That is incorrect. \nThe correct phrase is {correct_phrase}[/yellow]")
 
-    reset = input(f"Do you want to quit? [Y/N]: ")
 
-    if reset.lower() == "y":
-        console = Console()
-        console.clear() 
-    else:
-        print("well, I'm not equipped at the moment to do that. By anyway.")
 
 def pick_range(num):
 
     num = int(num)
-    #gen ran nums within range based on user's input
-    user_num_list = []
-    user_list_answer = {}
+    user_num_list = [] #shuffled numbers based on the user's input
+    user_list_answer = {} #answer-key based on the shuffled numbers
 
-    # num = int(input(f"Enter a number range you would like to pracice: "))
-
+    #gen ran nums within range of _0 - _9 based on user's input
     for i in range(num, num+9):
         user_num_list.append(i)
     random.shuffle(user_num_list)
 
     #generate the answer key
-    for number in user_num_list:
-        PAO_phrase = []
-        str_number = str(number)
-        triplicated_number = str_number+str_number+str_number 
-        user_list_answer[number] = gen_phrase(triplicated_number)
-
+    
+    for num in user_num_list:
+        PAO_phrase = gen_PAO_phrase(num)
+        user_list_answer[num] = PAO_phrase
 
     #loop through each item of the user_num_list, get PAO answer for each item
     for number in user_num_list: 
@@ -75,4 +70,5 @@ def pick_range(num):
         else:
             rprint(f"[yellow]I'm sorry, that's incorrect. The correct phrase is {user_list_answer[number]}")
 
-    # return "done"
+    return "done"
+

@@ -69,6 +69,7 @@ class GameMode:
 
         if next_mode:
             self.reset_round()
+            Console().clear()
             return next_mode.run()
         else:
             print(f"next_mode not initatied: {next_mode}")
@@ -134,13 +135,14 @@ class PickRangeMenu(GameMode):
             print("else block of gameplay in PickRangeMenu...")
 
 class PickRangeSession(GameMode):
+    #note: Range00s doesn't work...
     def __init__(self, choice):
         self.choice = choice
 
         super().__init__(
             ascii_title = ASCII_MAP[choice],
             instructions = "Type your answer below, comma seperated. \nAt anytime, you can select from the following options: \n",
-            menu_items = ["hint", "menu"],
+            menu_items = ["hint", "menu"], #add "restart" to menu
             )
         
     def run(self):
@@ -152,11 +154,12 @@ class PickRangeSession(GameMode):
         user_input = pick_range(self.choice)
 
         if user_input == 'menu':
-                Console().clear()
-                return Menu().run()
-        # elif user_input == 'quit':
-        #     # return PlayAgain(lambda: PickRangeSession(self.choice))
-        #     return PlayAgain(lambda: self.__class__(*self.get_init_args())).run()
+            Console().clear()
+            return Menu().run()
+        
+        elif user_input == 'done': #pick_range() returns 'done' when finished
+            # Console().clear()
+            return  PlayAgain(lambda: PickRangeMenu().run()).run() 
 
 class Choose_3(GameMode):
     def __init__(self):
@@ -180,8 +183,10 @@ class PlayAgain(GameMode):
 
     def gameplay(self, choice):
         if choice.lower() == "play again":
+            Console().clear()
             return self.previous_mode_fn()
         elif choice.lower() == "menu":
+            Console().clear()
             return Menu()
 
 class Goodbye(GameMode):

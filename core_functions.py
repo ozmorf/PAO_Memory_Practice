@@ -21,10 +21,21 @@ def is_odd_length(num_list):
         return False
 
 def seperate_last_digit(num):
-    last_digit = int(num) % 10
-    shortened_num = num // 10
-    return [shortened_num, last_digit]
+    #check if num is length of 1
+    if len(str(num)) <= 1:
+        shortened_num = num
+        last_digit = num
+        return [shortened_num, last_digit]
     
+    # NEVER DIVIDE BY ZEROOOOO!!!!!
+    last_digit = int(num) % 10
+    if num != 0:
+        shortened_num = num // 10
+    else:
+        shortened_num = 0
+        last_digit = 0
+    return [shortened_num, last_digit]
+ 
     #add clause to prohibit doing this with an integer of even length?
 
 def pair_digits(num): 
@@ -77,7 +88,7 @@ def gen_lonely_word(num):
     word = singles[num]
     return word
 
-# gen_phrase is calling between gen_main_phrase() and itself someewhat redundantly...
+# gen_phrase is calling between gen_main_phrase() and itself somewhat redundantly...
 def gen_phrase(num_list):
     #add a "catch" if the input is a list instead of int
     phrase = []
@@ -91,16 +102,22 @@ def gen_phrase(num_list):
         phrase.extend(gen_main_phrase(num_list))
         return phrase
 
+def gen_PAO_phrase(num):
+    #generates a PAO answer phrase from a single or pair of digits. i.e. 36 => 'match', 'lighting', 'campfire'
+
+    num = int(num)
+    PAO_phrase = []
+    for word in range(3):
+        PAO_phrase.append(PAO_dict_list[num][word])
+    
+    return PAO_phrase
+
 def collect_user_input(number):
 
-    # user_input = input(f"Your response (comma seperated): ")
     user_input = input(f">> ")
-    #user_answer = user_input.split(",")
     user_answer = [item.strip() for item in user_input.split(",")]
 
     return user_answer
-
-    #seperate user answer by commas, and store each item in a list
 
 def check_valid_input(user_input, valid_choices):
     if user_input in valid_choices:
