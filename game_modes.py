@@ -22,7 +22,7 @@ class GameMode:
         rprint(f"[cyan]{self.ascii_title}[/cyan]\n")
     
     def display_instructions(self):
-        rprint(f"[bold white]{self.instructions}[/bold white]")
+        rprint(f"[bold white]{self.instructions}[/bold white]\n")
 
     def display_menu(self):
         #homework: print number for each display_menu item, and allow user to pick number instead of typing the name of the mode
@@ -80,13 +80,14 @@ class Menu(GameMode):
         super().__init__(
             ascii_title = major_PAO, 
             instructions = "Welcome to Major PAO Practice! Choose an item from the menu by typing it below:\n ", 
-            menu_items = ["tutorial", "choose 3", "pick range", "quit"]
+            menu_items = ["tutorial", "convert numbers", "pick range", "quit"]
             )
     def gameplay(self, user_choice):
         Console().clear()
         if get_valid_user_input(user_choice, self.menu_items):
-            if user_choice == "choose 3":
-                return Choose_3
+            user_choice = user_choice.lower()
+            if user_choice == "convert numbers":
+                return Convert_Numbers_Menu()
             elif user_choice == "pick range":
                 return PickRangeMenu()
             elif user_choice == "menu":
@@ -135,14 +136,13 @@ class PickRangeMenu(GameMode):
             print("else block of gameplay in PickRangeMenu...")
 
 class PickRangeSession(GameMode):
-    #note: Range00s doesn't work...
     def __init__(self, choice):
         self.choice = choice
 
         super().__init__(
             ascii_title = ASCII_MAP[choice],
             instructions = "Type your answer below, comma seperated. \nAt anytime, you can select from the following options: \n",
-            menu_items = ["hint", "menu"], #add "restart" to menu
+            menu_items = ["hint", "menu"], 
             )
         
     def run(self):
@@ -161,15 +161,42 @@ class PickRangeSession(GameMode):
             # Console().clear()
             return  PlayAgain(lambda: PickRangeMenu().run()).run() 
 
-class Choose_3(GameMode):
+class Convert_Numbers_Menu(GameMode):
     def __init__(self):
         super().__init__(
-            ascii_title = choose_3, 
-            instructions = "Choose 3 instructions here...", 
-            menu_items = ["item 1", "item 2", "item 3..."]
+            ascii_title = ascii_convert_numbers, 
+            instructions = "Choose a difficulty from the following options: ", 
+            menu_items = ["easy", "medium", "difficult", "menu"]
             )  
     def gameplay(self, choice):
-        answer_three()
+        if choice in get_valid_user_input(choice, self.menu_items):
+            if choice == "easy":
+                print("you chose easy")
+                return Convert_Numbers_Session()
+            if choice == "medium":
+                print("You chose medium")
+                return Convert_Numbers_Session()
+            if choice == "difficult":
+                print("you chose difficult")
+                return Convert_Numbers_Session()
+            if choice == "menu":
+                return Menu()
+
+class Convert_Numbers_Session(GameMode):
+    def __init__(self):
+        super().__init__(
+            ascii_title = ascii_convert_numbers, 
+            instructions = "Enter your answer, comma seperated", 
+            menu_items = ["hint", "menu", "quit"]
+            )  
+    def gameplay(self, choice):
+        convert_numbers()
+        return PlayAgain(lambda: Convert_Numbers_Menu().run())
+
+    # def run(self
+            
+    #     ):
+    #     super().run()
 
 class PlayAgain(GameMode):
     def __init__(self, previous_mode_fn):

@@ -5,20 +5,24 @@ import random
 from rich import print as rprint
 from rich import pretty 
 
-# pretty.install()
-
-def gen_ran_length():
-
-    #is this even useful? Will see...
-    length = random.randint(1,12)
-    return length
-
 def is_odd_length(num_list):
     
     if len(str(num_list)) % 2 != 0:
         return True
-    else:
-        return False
+    # else:
+    #     return False
+
+def gen_ran_two_digit_num():
+
+    num = []
+
+    for i in range(2):
+        ran_num = random.randint(0,9)
+        num.append(ran_num)
+
+    num_result = "".join(map(str, num))
+
+    return num_result
 
 def seperate_last_digit(num):
     #check if num is length of 1
@@ -49,23 +53,24 @@ def pair_digits(num):
     return paired_digits
     # return [int(num_string[i:i+2]) for i in range (0, len(num), 2)]
 
-def gen_ran_num_list(number):
+def gen_ran_num(number):
 
-    if number == None:
-        number = random.randint(0,16)
-    else:
-        number_list = []
-        #loop over list, gen num sequence and phrase
-        for i in range(number):
-            ran_digit = random.randint(0,9) #add a catch if this number isn't in the proper range, or to check how many items are in the data source
-            number_list.append(ran_digit)
+    number_list = []
+   
+    for i in range(number):
+        ran_digit = random.randint(0,9) 
+        number_list.append(ran_digit)
+
+    # 0s will get dropped if first in the sequence
+    # while len(number_list) != number:
+    #     number_list.append(random.randint(0,9))
     
-    number = int(''.join(map(str, number_list)))
+    num_result = str(''.join(map(str, number_list)))
 
-    return number
+    return num_result
    
 def gen_main_phrase(num_list):
-
+    #this function generates phrases for odd-number length numbers without the last digit.
     phrase = []
     count = 0
 
@@ -85,6 +90,7 @@ def gen_main_phrase(num_list):
     return phrase
 
 def gen_lonely_word(num):
+    #for odd-length numbers, this takes the last digit and returns the "loner" word
     word = singles[num]
     return word
 
@@ -112,7 +118,33 @@ def gen_PAO_phrase(num):
     
     return PAO_phrase
 
-def collect_user_input(number):
+def display_numbers_formatted(num_list):
+    #takes numbers like [98, 16, 0] and displays it as 98-16-00, or for odd lengths, 98-16-00-1
+    #note: input is a list of numbers, not just a plain integer
+    pass
+    # for num in num_list:
+
+def gen_shuffled_PAO_phrase(number_of_words):
+
+    #
+    
+    num = gen_ran_num(number_of_words*2)
+    print(f"num: {num}")
+    answer = gen_phrase(num)
+    # print(f"num_list: {num}\nanswer_key: {answer}")
+    return
+    num_list = []
+    answer_key = {}
+
+    for num in range(number_of_words):
+        num_list.append(gen_ran_num(2))
+
+    for item in num_list:
+        answer_key[item] = gen_PAO_phrase(item)
+
+    print(f"num_list: {num_list}\nanswer_key: {answer_key}")
+
+def collect_user_input():
 
     user_input = input(f">> ")
     user_answer = [item.strip() for item in user_input.split(",")]
@@ -135,11 +167,6 @@ def check_answer(user_input, answer):
        answer_lowercase.append(item.lower()) 
       
     return user_input_lowercase == answer_lowercase
-
-def display_welcome_sequence():
-    rprint(f"[cyan]{major_PAO}[/cyan]")
-    rprint(f"[bold]Welcome to Major PAO Practice! Choose an item from the menu by typing it below: [/bold] ")
-    rprint(f"[cyan]{menu_word}")
 
 def display_menu(menu_list):
     
@@ -174,3 +201,5 @@ def get_valid_user_input(user_input, menu_choices):
     return user_input
 
 #check if words are slightly misspelled
+
+# print(gen_ran_two_digit_num())
