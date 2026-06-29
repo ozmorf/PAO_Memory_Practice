@@ -151,10 +151,13 @@ def collect_user_input():
 
     return user_answer
 
+def give_hint(answer_list):
+    ran_index = random.randint(1, len(answer_list)-1)
+    return answer_list[ran_index]
+
 def check_valid_input(user_input, valid_choices):
     if user_input in valid_choices:
         return True
-
 
 def check_answer(user_input, answer):
 

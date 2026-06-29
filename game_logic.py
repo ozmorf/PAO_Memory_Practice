@@ -4,18 +4,29 @@ from core_functions import *
 # from rich.console import Console
 import random
 
-def convert_numbers(): #takes argument 'difficulty'
-    # easy (2 digits), medium (4), hard (6), and custom (user chooses up to 20)
+def convert_numbers(difficulty):
+    
+    difficult_num = None
 
-    # win = "Ummm, that was correct. Good job, buck-o."
-    # lose = "Ha! I [italic]knew[/italic] you needed to study more. That is incorrect. \nThe correct phrase is {correct_phrase}"
+    if difficulty == "easy":
+        difficulty_num = 4
+    elif difficulty == "medium":
+        difficulty_num = 6
+    elif difficulty == "hard":
+        difficulty_num = 12
+    elif difficulty == "custom":
+        print(f"difficulty set to custom...")
+        difficulty_num = 4
+    else:
+        print(f"difficulty not chosen. Setting digits to length of 4")
+        difficulty_num = 4
 
     num_list = []
     answer_key = {}
 
     #create random num list and answer key
     for num in range(10):
-        num_list.append(gen_ran_num(6))
+        num_list.append(gen_ran_num(difficulty_num))
 
     for item in num_list:
         answer_key[item] = gen_phrase(item)
@@ -24,6 +35,15 @@ def convert_numbers(): #takes argument 'difficulty'
     for number in answer_key:
         rprint(f"enter the correct phrase for [cyan]{number}[/cyan]")
         user_answer = collect_user_input()
+
+        if user_answer[0].lower() == "hint":
+            rprint(f"Here's your hint: [yellow]{give_hint(answer_key[number])}[/yellow]")
+            user_answer = collect_user_input()
+        elif user_answer[0].lower() == "menu":
+            return "menu"
+        elif user_answer[0].lower() == "quit":
+            return "quit"
+
 
         if check_answer(user_answer, answer_key[number]):
             rprint(f"[green]Correct![/green]")
