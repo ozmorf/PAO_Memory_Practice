@@ -1,7 +1,7 @@
 from core_functions import *
 from ascii import *
 from game_logic import *
-from constants import ASCII_MAP
+from constants import *
 
 import random
 from rich import print as rprint
@@ -19,7 +19,7 @@ class GameMode:
         self.menu_items = menu_items
 
     def display_ascii_title(self):
-        rprint(f"[cyan]{self.ascii_title}[/cyan]\n")
+        rprint(f"[bold cyan]{self.ascii_title}[/bold cyan]\n")
     
     def display_instructions(self):
         rprint(f"[bold white]{self.instructions}[/bold white]\n")
@@ -158,7 +158,6 @@ class PickRangeSession(GameMode):
             return Menu().run()
         
         elif user_input == 'done': #pick_range() returns 'done' when finished
-            # Console().clear()
             return  PlayAgain(lambda: PickRangeMenu().run()).run() 
 
 class Convert_Numbers_Menu(GameMode):
@@ -168,35 +167,48 @@ class Convert_Numbers_Menu(GameMode):
             instructions = "Choose a difficulty from the following options: ", 
             menu_items = ["easy", "medium", "difficult", "menu"]
             )  
+        
     def gameplay(self, choice):
         if choice in get_valid_user_input(choice, self.menu_items):
             if choice == "easy":
-                print("you chose easy")
-                return Convert_Numbers_Session()
+                return Convert_Numbers_Session("easy")
             if choice == "medium":
-                print("You chose medium")
-                return Convert_Numbers_Session()
+                return Convert_Numbers_Session("medium")
             if choice == "difficult":
-                print("you chose difficult")
-                return Convert_Numbers_Session()
+                return Convert_Numbers_Session("hard")
+            if choice == "custom":
+                return Convert_Numbers_Session("custom")
             if choice == "menu":
                 return Menu()
 
 class Convert_Numbers_Session(GameMode):
-    def __init__(self):
+    def __init__(self, difficulty):
+        self.difficulty = difficulty
+
         super().__init__(
-            ascii_title = ascii_convert_numbers, 
-            instructions = "Enter your answer, comma seperated", 
+            ascii_title =  CONVERT_NUMBERS_MAP[difficulty], #ascii_convert_numbers, 
+            instructions = "Convert each number into the correct phrase by typing your answer (comma seperated)", 
             menu_items = ["hint", "menu", "quit"]
             )  
     def gameplay(self, choice):
-        convert_numbers()
+        convert_numbers(self.difficulty)
         return PlayAgain(lambda: Convert_Numbers_Menu().run())
 
-    # def run(self
-            
-    #     ):
-    #     super().run()
+class Convert_Phrases_Menu(GameMode):
+    def __init__(self):
+        super().__init(
+            ascii_title = None,
+            instructions = "instructions for convert phrases menu",
+            menu_items = ["menu item 1", "menu item 2"]
+        )
+
+class Convert_Phrases_Session(GameMode):
+    def __init__(self):
+        super().__init(
+            ascii_title = None,
+            instructions = "instructions for convert phrases session",
+            menu_items = ["menu item 1", "menu item 2"]
+        )
 
 class PlayAgain(GameMode):
     def __init__(self, previous_mode_fn):

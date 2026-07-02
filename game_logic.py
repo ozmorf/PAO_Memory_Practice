@@ -33,7 +33,7 @@ def convert_numbers(difficulty):
 
     #main loop for the mode
     for number in answer_key:
-        rprint(f"enter the correct phrase for [cyan]{number}[/cyan]")
+        rprint(f"enter the correct phrase for [cyan]{format_numbers(number)}[/cyan]")
         user_answer = collect_user_input()
 
         if user_answer[0].lower() == "hint":
@@ -52,14 +52,59 @@ def convert_numbers(difficulty):
     
     return "done"
 
-def convert_phrases():
+def convert_phrases(difficulty):
     
-    for round in range(10):
-        # gen_shuffled_PAO_phrase(number_of_words)
-        # for i in range(3):
-        #     num = gen_ran_two_digit_num()
-        pass
+    difficult_num = None
 
+    if difficulty == "easy":
+        difficulty_num = 4
+    elif difficulty == "medium":
+        difficulty_num = 6
+    elif difficulty == "hard":
+        difficulty_num = 12
+    elif difficulty == "custom":
+        print(f"difficulty set to custom...")
+        difficulty_num = 4
+    else:
+        print(f"difficulty not chosen. Setting digits to length of 4")
+        difficulty_num = 4
+
+    num_list = []
+    phrase_list = []
+    answer_key = {}
+
+    for i in range(10):
+        num_list.append(gen_ran_num(difficulty_num))
+
+    for num in num_list:
+        answer_key[num] = gen_phrase(num)
+
+    # print(f"num_list: {num_list}\nanswer_key: {answer_key}")
+
+    for number in answer_key:
+        rprint(f"enter the correct number for the phrase [cyan]{answer_key[number]} (comma seperated)[/cyan]")
+        user_answer = collect_user_input()
+
+        if user_answer[0].lower() == "hint":
+            rprint(f"Here's your hint: [yellow]{give_hint(answer_key[number])}[/yellow]")
+            user_answer = collect_user_input()
+        elif user_answer[0].lower() == "menu":
+            return "menu"
+        elif user_answer[0].lower() == "quit":
+            return "quit"
+
+        #this will take some doing to get working...
+
+        print(f"answer_key at number: {number}")
+
+        if "".join(user_answer) == number: #check_answer(user_answer, answer_key[number]):
+            rprint(f"[green]Correct![/green]")
+        else:
+            rprint(f"Not quite. The answer is [yellow]{number}[/yellow]\n")
+    
+    return "done"
+
+# convert_phrases("easy")
 
 def pick_range(num):
 
@@ -84,9 +129,7 @@ def pick_range(num):
         user_answer = collect_user_input()
 
         if user_answer[0].lower() == "hint":
-            choose_1_or_2 = random.randint(1,2)
-            hint = user_list_answer[number][choose_1_or_2]
-            rprint(f"[bright_cyan]Hint, huh? Well well, looks like [italic]somebody[/italic] needs to study more.\nHere's the hint for little precious: [yellow]'{hint}'[/yellow][/bright_cyan]")
+            rprint(f"Here's your hint: [yellow]{give_hint(user_list_answer[number])}[/yellow]")
             user_answer = collect_user_input()
 
         elif user_answer[0].lower() == "menu":

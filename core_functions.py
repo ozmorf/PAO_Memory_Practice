@@ -118,31 +118,9 @@ def gen_PAO_phrase(num):
     
     return PAO_phrase
 
-def display_numbers_formatted(num_list):
-    #takes numbers like [98, 16, 0] and displays it as 98-16-00, or for odd lengths, 98-16-00-1
-    #note: input is a list of numbers, not just a plain integer
-    pass
-    # for num in num_list:
-
-def gen_shuffled_PAO_phrase(number_of_words):
-
-    #
-    
-    num = gen_ran_num(number_of_words*2)
-    print(f"num: {num}")
-    answer = gen_phrase(num)
-    # print(f"num_list: {num}\nanswer_key: {answer}")
-    return
-    num_list = []
-    answer_key = {}
-
-    for num in range(number_of_words):
-        num_list.append(gen_ran_num(2))
-
-    for item in num_list:
-        answer_key[item] = gen_PAO_phrase(item)
-
-    print(f"num_list: {num_list}\nanswer_key: {answer_key}")
+def format_numbers(number):
+    string = str(number)
+    return "-".join(string[i:i+2] for i in range(0, len(string), 2))
 
 def collect_user_input():
 
