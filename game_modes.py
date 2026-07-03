@@ -7,9 +7,6 @@ import random
 from rich import print as rprint
 from rich.console import Console
 
-# console = Console()
-# console.clear()
-
 class GameMode:
     #data: ascii_title, instructions, menu_items, interactive_loop
     #behaviors: display menu, get user input, gameplay, gameplay_interactive_loop, clear console
@@ -25,7 +22,6 @@ class GameMode:
         rprint(f"[bold white]{self.instructions}[/bold white]\n")
 
     def display_menu(self):
-        #homework: print number for each display_menu item, and allow user to pick number instead of typing the name of the mode
         for item in self.menu_items:
             rprint(f"[cyan]- {item}[/cyan]")
         rprint("")
@@ -60,8 +56,7 @@ class GameMode:
      
     def run(self):
         self.display_ascii_title()
-        self.display_instructions()
-            
+        self.display_instructions()      
         self.display_menu()
 
         user_choice = self.get_user_input()
@@ -94,7 +89,6 @@ class Menu(GameMode):
                 return Menu()
             elif user_choice == "quit" or "stop":
                 print(f"I'm relieved. I was ready to be done with you too tbh")
-                # return Goodbye()
             else:
                 print("somethine weird must've happened...check your code.")
         else:
@@ -186,13 +180,23 @@ class Convert_Numbers_Session(GameMode):
         self.difficulty = difficulty
 
         super().__init__(
-            ascii_title =  CONVERT_NUMBERS_MAP[difficulty], #ascii_convert_numbers, 
+            ascii_title =  CONVERT_NUMBERS_MAP[difficulty],
             instructions = "Convert each number into the correct phrase by typing your answer (comma seperated)", 
             menu_items = ["hint", "menu", "quit"]
             )  
-    def gameplay(self, choice):
+        
+    def gameplay(self, choice=None):
         convert_numbers(self.difficulty)
         return PlayAgain(lambda: Convert_Numbers_Menu().run())
+    
+    def run(self):
+        self.display_ascii_title()
+        self.display_instructions()
+        self.display_menu()
+
+        self.gameplay()
+
+        return PlayAgain(lambda: Convert_Numbers_Menu().run()).run()
 
 class Convert_Phrases_Menu(GameMode):
     def __init__(self):

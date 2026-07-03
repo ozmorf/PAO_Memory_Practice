@@ -12,3 +12,10 @@ ASCII_MAP = {
     80: range_eighties_small,
     90: range_nineties_small,
 }
+
+CONVERT_NUMBERS_MAP = {
+    "easy": convert_numbers_easy,
+    "medium": convert_numbers_medium,
+    "hard": convert_numbers_hard,
+    "custom": convert_numbers_custom
+}

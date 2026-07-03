@@ -9,8 +9,6 @@ def is_odd_length(num_list):
     
     if len(str(num_list)) % 2 != 0:
         return True
-    # else:
-    #     return False
 
 def gen_ran_two_digit_num():
 
@@ -31,7 +29,7 @@ def seperate_last_digit(num):
         last_digit = num
         return [shortened_num, last_digit]
     
-    # NEVER DIVIDE BY ZEROOOOO!!!!!
+    # NEVER DIVIDE BY ZERO
     last_digit = int(num) % 10
     if num != 0:
         shortened_num = num // 10
@@ -42,17 +40,6 @@ def seperate_last_digit(num):
  
     #add clause to prohibit doing this with an integer of even length?
 
-def pair_digits(num): 
-    # is this even used? I think this code is duplicated in gen_phrase() or gen_main_phrase()...
-    paired_digits = []
-    num_string = str(num)
-
-    for i in range(0, len(num_string), 2):
-        paired_digits.append(int(num_string[i:i+2]))
-
-    return paired_digits
-    # return [int(num_string[i:i+2]) for i in range (0, len(num), 2)]
-
 def gen_ran_num(number):
 
     number_list = []
@@ -60,10 +47,6 @@ def gen_ran_num(number):
     for i in range(number):
         ran_digit = random.randint(0,9) 
         number_list.append(ran_digit)
-
-    # 0s will get dropped if first in the sequence
-    # while len(number_list) != number:
-    #     number_list.append(random.randint(0,9))
     
     num_result = str(''.join(map(str, number_list)))
 
@@ -78,7 +61,6 @@ def gen_main_phrase(num_list):
     paired_numbers = []
 
     for i in range(0, len(str(num_list)), 2):
-            #digit pair is actually the index...we want the digits from the integer instead.
             paired_numbers.append(num_string[i:i+2])
 
     for number in paired_numbers:
@@ -94,9 +76,7 @@ def gen_lonely_word(num):
     word = singles[num]
     return word
 
-# gen_phrase is calling between gen_main_phrase() and itself somewhat redundantly...
 def gen_phrase(num_list):
-    #add a "catch" if the input is a list instead of int
     phrase = []
 
     if is_odd_length(num_list):
@@ -153,10 +133,6 @@ def display_menu(menu_list):
     
     for item in menu_list:
         rprint(f"[cyan]-{item}[/cyan]")
-    # print("\n")
-
-def reset_round():
-    None
 
 def get_valid_user_input(user_input, menu_choices):
 
