@@ -79,10 +79,8 @@ def convert_phrases(difficulty):
     for num in num_list:
         answer_key[num] = gen_phrase(num)
 
-    # print(f"num_list: {num_list}\nanswer_key: {answer_key}")
-
     for number in answer_key:
-        rprint(f"enter the correct number for the phrase [cyan]{answer_key[number]} (comma seperated)[/cyan]")
+        rprint(f"enter the correct number for the phrase [cyan]{answer_key[number]} [/cyan] (comma seperated)")
         user_answer = collect_user_input()
 
         if user_answer[0].lower() == "hint":
@@ -93,18 +91,12 @@ def convert_phrases(difficulty):
         elif user_answer[0].lower() == "quit":
             return "quit"
 
-        #this will take some doing to get working...
-
-        print(f"answer_key at number: {number}")
-
-        if "".join(user_answer) == number: #check_answer(user_answer, answer_key[number]):
+        if "".join(user_answer) == number:
             rprint(f"[green]Correct![/green]")
         else:
             rprint(f"Not quite. The answer is [yellow]{number}[/yellow]\n")
     
     return "done"
-
-# convert_phrases("easy")
 
 def pick_range(num):
 

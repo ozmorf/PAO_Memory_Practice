@@ -75,7 +75,7 @@ class Menu(GameMode):
         super().__init__(
             ascii_title = major_PAO, 
             instructions = "Welcome to Major PAO Practice! Choose an item from the menu by typing it below:\n ", 
-            menu_items = ["tutorial", "convert numbers", "pick range", "quit"]
+            menu_items = ["tutorial", "convert numbers", "convert phrases", "pick range", "quit"]
             )
     def gameplay(self, user_choice):
         Console().clear()
@@ -83,6 +83,8 @@ class Menu(GameMode):
             user_choice = user_choice.lower()
             if user_choice == "convert numbers":
                 return Convert_Numbers_Menu()
+            elif user_choice == "convert phrases":
+                return Convert_Phrases_Menu()
             elif user_choice == "pick range":
                 return PickRangeMenu()
             elif user_choice == "menu":
@@ -163,17 +165,17 @@ class Convert_Numbers_Menu(GameMode):
             )  
         
     def gameplay(self, choice):
-        if choice in get_valid_user_input(choice, self.menu_items):
-            if choice == "easy":
-                return Convert_Numbers_Session("easy")
-            if choice == "medium":
-                return Convert_Numbers_Session("medium")
-            if choice == "difficult":
-                return Convert_Numbers_Session("hard")
-            if choice == "custom":
-                return Convert_Numbers_Session("custom")
-            if choice == "menu":
-                return Menu()
+        # if choice in get_valid_user_input(choice, self.menu_items):
+        if choice == "easy":
+            return Convert_Numbers_Session("easy")
+        if choice == "medium":
+            return Convert_Numbers_Session("medium")
+        if choice == "difficult":
+            return Convert_Numbers_Session("hard")
+        if choice == "custom":
+            return Convert_Numbers_Session("custom")
+        if choice == "menu":
+            return Menu()
 
 class Convert_Numbers_Session(GameMode):
     def __init__(self, difficulty):
@@ -200,19 +202,44 @@ class Convert_Numbers_Session(GameMode):
 
 class Convert_Phrases_Menu(GameMode):
     def __init__(self):
-        super().__init(
-            ascii_title = None,
-            instructions = "instructions for convert phrases menu",
-            menu_items = ["menu item 1", "menu item 2"]
-        )
+        super().__init__(
+            ascii_title = ascii_convert_phrases,
+            instructions = "Choose a difficulty from the following options",
+            menu_items = ["easy", "medium", "hard", "custom"]
+            )
+
+    def gameplay(self, difficulty):
+        if difficulty == "easy":
+            return Convert_Phrases_Session("easy") # convert_phrases("easy")
+        elif difficulty == "medium":
+            return Convert_Phrases_Session("medium")
+        elif difficulty == "hard":
+            return Convert_Phrases_Session("hard")
+        elif difficulty == "custom":
+            return Convert_Phrases_Session("custom")
 
 class Convert_Phrases_Session(GameMode):
-    def __init__(self):
-        super().__init(
-            ascii_title = None,
-            instructions = "instructions for convert phrases session",
-            menu_items = ["menu item 1", "menu item 2"]
+    def __init__(self, difficulty):
+        self.difficulty = difficulty
+
+        super().__init__(
+            ascii_title = CONVERT_PHRASES_MAP[difficulty],
+            instructions = "Convert each phrase into the correct number by typing your answer (comma seperated)",
+            menu_items = ["menu", "hint", "quit"]
         )
+            
+    def gameplay(self, choice=None):
+        convert_phrases(self.difficulty)
+        return PlayAgain(lambda: Convert_Phrases_Menu())
+    
+    def run(self):
+        self.display_ascii_title()
+        self.display_instructions()
+        self.display_menu()
+
+        self.gameplay()
+
+        return PlayAgain(lambda: Convert_Numbers_Menu().run()).run()
 
 class PlayAgain(GameMode):
     def __init__(self, previous_mode_fn):
@@ -250,6 +277,7 @@ class Goodbye(GameMode):
 
 Console().clear()
 Menu().run()
+# Convert_Numbers_Session("easy").run()
 
 
         

@@ -19,3 +19,10 @@ CONVERT_NUMBERS_MAP = {
     "hard": convert_numbers_hard,
     "custom": convert_numbers_custom
 }
+
+CONVERT_PHRASES_MAP = {
+    "easy": convert_phrases_easy,
+    "medium": convert_phrases_medium,
+    "hard": convert_phrases_hard,
+    "custom": convert_phrases_custom,
+}
